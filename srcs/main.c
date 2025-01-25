@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:11:44 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/01/12 17:29:37 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:02:28 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 	{
-		write(STDERR_FILENO, "Usage: ./pipex file1 'cmd1' 'cmd2' file2\n", 42);
+		write(2, "Usage: ./pipex file1 \"cmd1\" \"cmd2\" file2\n", 42);
 		return (EXIT_FAILURE);
 	}
 	files[0] = open(argv[1], O_RDONLY);

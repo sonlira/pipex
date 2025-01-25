@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:12:14 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/01/12 17:16:33 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:04:30 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <string.h>
 # include <errno.h>
 
-void	execute_cmd1(int infile, int pipe_fd[2], char *cmd1, char **envp);
-void	execute_cmd2(int outfile, int pipe_fd[2], char *cmd2, char **envp);
+void	execute_in_child(int infile, int pipe_fd[2], char *cmd1, char **envp);
+void	execute_in_father(int outfile, int pipe_fd[2], char *cmd2, char **envp);
 void	call_forks(int files[2], int pipe_fd[2], char **argv, char **envp);
 void	error_exit(const char *msg);
 void	close_fds(int fd1, int fd2, int fd3, int fd4);
