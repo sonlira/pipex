@@ -6,13 +6,13 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:11:41 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/01/25 21:04:43 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:03:43 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	execute_in_child(int infile, int pipe_fd[2], char *cmd1, char **envp)
+void	execute_cmd1(int infile, int pipe_fd[2], char *cmd1, char **envp)
 {
 	char	*args[4];
 
@@ -29,7 +29,7 @@ void	execute_in_child(int infile, int pipe_fd[2], char *cmd1, char **envp)
 		error_exit("execve cmd1 error");
 }
 
-void	execute_in_father(int outfile, int pipe_fd[2], char *cmd2, char **envp)
+void	execute_cmd2(int outfile, int pipe_fd[2], char *cmd2, char **envp)
 {
 	char	*args[4];
 
@@ -46,16 +46,22 @@ void	execute_in_father(int outfile, int pipe_fd[2], char *cmd2, char **envp)
 		error_exit("execve cmd2 error");
 }
 
-void	call_forks(int files[2], int pipe_fd[2], char **argv, char **envp)
+void	call_forks(int files[2], int pipe_fd[2], char **cmds, char **envp)
 {
-	pid_t	pid;
+	pid_t	pid1;
+	pid_t	pid2;
 
-	pid = fork();
-	if (pid == -1)
+	pid1 = fork();
+	if (pid1 == -1)
 		error_exit("Fork error");
-	if (pid == 0)
-		execute_in_child(files[0], pipe_fd, argv[2], envp);
-	execute_in_father(files[1], pipe_fd, argv[3], envp);
+	if (pid1 == 0)
+		execute_cmd1(files[0], pipe_fd, cmds[2], envp);
+	pid2 = fork();
+	if (pid2 == -1)
+		error_exit("Fork error");
+	if (pid2 == 0)
+		execute_cmd2(files[1], pipe_fd, cmds[3], envp);
 	close_fds(pipe_fd[0], pipe_fd[1], files[0], files[1]);
-	waitpid(pid, NULL, 0);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
 }

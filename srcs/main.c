@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:11:44 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/01/25 21:02:28 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:45:44 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ int	main(int argc, char **argv, char **envp)
 	int		files[2];
 
 	if (argc != 5)
-	{
-		write(2, "Usage: ./pipex file1 \"cmd1\" \"cmd2\" file2\n", 42);
-		return (EXIT_FAILURE);
-	}
+		ft_putstr_stderr("Usage: ./pipex file1 \"cmd1\" \"cmd2\" file2\n");
+	if (!path_in_envp(envp))
+		ft_putstr_stderr("Warning: PATH variable is not set\n");
 	files[0] = open(argv[1], O_RDONLY);
 	if (files[0] < 0)
 		error_exit("Error opening infile");
